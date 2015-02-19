@@ -1,14 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\tacticsCharacterController.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\furyControls.cs">
     <Files>
-      <File FileName="Assets\Scripts\tacticsCharacterController.cs" Line="259" Column="5" />
-      <File FileName="Assets\Scripts\furyControls.cs" Line="118" Column="3" />
-      <File FileName="Assets\Scripts\furyWeaponHolder.cs" Line="26" Column="55" />
-      <File FileName="Assets\Scripts\characterScript.cs" Line="19" Column="2" />
-      <File FileName="Assets\Scripts\gridTile.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GridSetup.cs" Line="1" Column="1" />
-      <File FileName="Assets\checkGrid.cs" Line="41" Column="32" />
+      <File FileName="Assets\writeText.cs" Line="28" Column="3" />
+      <File FileName="Assets\Scripts\tacticsCharacterController.cs" Line="39" Column="6" />
+      <File FileName="Assets\Scripts\characterScript.cs" Line="71" Column="9" />
+      <File FileName="Assets\Scripts\furyControls.cs" Line="228" Column="12" />
+      <File FileName="Assets\Scripts\WorldRules.cs" Line="32" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
