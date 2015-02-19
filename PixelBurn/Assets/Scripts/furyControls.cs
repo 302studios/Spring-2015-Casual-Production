@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class furyControls : MonoBehaviour {
 
@@ -27,6 +28,11 @@ public class furyControls : MonoBehaviour {
 
 	int p1Choice;
 	int p2Choice;
+
+	public Text topText;
+	public Text bottomText;
+
+	bool inReveal;
 
 	// Use this for initialization
 	void Start () {
@@ -70,7 +76,7 @@ public class furyControls : MonoBehaviour {
 		if (!furyOn) {
 			cam.transform.position = currLoc;
 			cam.transform.position -= new Vector3 (0, 0, 10);
-			cam.GetComponent<Camera> ().orthographicSize = 2.5f;
+			cam.GetComponent<Camera> ().orthographicSize = 2.8f;
 
 			spotLight.transform.position = furyLoc;
 			spotLight.transform.localScale = new Vector3 (1.8f, 1.8f, 1.8f);
@@ -79,12 +85,24 @@ public class furyControls : MonoBehaviour {
 			sR.transform.position = furyLoc;
 			sR.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 255);
 
+			topText.color = new Color (255, 255, 255, 255);
+			bottomText.color = new Color (255, 255, 255, 255);
+
 			furyOn = true;
 		}
 
 	}
 
 	void theFury(){
+
+		if (!inReveal) {
+
+			topText.text = ("GET READY TO FURY!!!");
+			bottomText.text = ("Hammer, Magic, or Blade");
+
+		}
+
+
 
 		if(!p1HasChosen){
 			if(Input.GetKeyDown(KeyCode.Z)){
@@ -119,46 +137,54 @@ public class furyControls : MonoBehaviour {
 
 		if(p1HasChosen && p2HasChosen){
 
-			winner = compareFury(p1Choice, p2Choice);
-			if(winner == 1){
-				Destroy(playerTwoChar);
-				playerTwoChar = null;
-				playerOneChar.transform.position = currLoc;
-			}
-			if(winner == 2){
-				Destroy(playerOneChar);
-				playerOneChar = null;
-				playerTwoChar.transform.position = currLoc;
-			}
-			furyEnd();
+			StartCoroutine(theReveal());
+
 		}
 
 	}
 
 	int compareFury(int p1, int p2){
 
-		if((p1 == 1) && (p2 == 1))
-			return tugOfWar();
-		if((p1 == 2) && (p2 == 2))
-			return tugOfWar();
-		if((p1 == 3) && (p2 == 3))
-			return tugOfWar();
+		if ((p1 == 1) && (p2 == 1)) {
+			bottomText.text = "TIE!! Player 1 Default Wins";
+			return tugOfWar ();
+		}
+		if ((p1 == 2) && (p2 == 2)) {
+						bottomText.text = "TIE!! Player 1 Default Wins";
+						return tugOfWar ();
+				}
+		if ((p1 == 3) && (p2 == 3)) {
+						bottomText.text = "TIE!! Player 1 Default Wins";
+						return tugOfWar ();
+				}
 
 		// Player 1 Victory
-		if((p1 == 2) && (p2 == 1))
-			return 1;
-		if((p1 == 3) && (p2 == 2))
-			return 1;
-		if((p1 == 1) && (p2 == 3))
-			return 1;
+		if ((p1 == 2) && (p2 == 1)) {
+						bottomText.text = "Magic beats Hammer";
+						return 1;
+				}
+		if ((p1 == 3) && (p2 == 2)) {
+						bottomText.text = "Blade beats Magic";
+						return 1;
+				}
+		if ((p1 == 1) && (p2 == 3)) {
+						bottomText.text = "Hammer beats Blade";
+						return 1;
+				}
 
 		// Player 2 Victory
-		if((p1 == 1) && (p2 == 2))
-			return 2;
-		if((p1 == 2) && (p2 == 3))
-			return 2;
-		if((p1 == 3) && (p2 == 1))
-			return 2;
+		if ((p1 == 1) && (p2 == 2)) {
+						bottomText.text = "Magic beats Hammer";
+						return 2;
+				}
+		if ((p1 == 2) && (p2 == 3)) {
+						bottomText.text = "Blade beats Magic";
+						return 2;
+				}
+		if ((p1 == 3) && (p2 == 1)) {
+						bottomText.text = "Hammer beats Blade";
+						return 2;
+				}
 
 		return 0;
 
@@ -177,6 +203,8 @@ public class furyControls : MonoBehaviour {
 			cam.GetComponent<Camera> ().orthographicSize = defaultCamSize;
 			sR.GetComponent<SpriteRenderer> ().color = new Color (0, 0, 0, 0);
 			spotLight.GetComponent<SpriteRenderer> ().color = new Color (0, 0, 0, 0);
+			topText.color = new Color (0, 0, 0, 0);
+			bottomText.color = new Color (0, 0, 0, 0);
 
 			p1Choice = 0;
 			p2Choice = 0;
@@ -187,10 +215,44 @@ public class furyControls : MonoBehaviour {
 			p2Select.GetComponent<tacticsCharacterController>().onEnemy = false;
 
 			furyOn = false;		
+			inReveal = false;
 
 			this.GetComponent<WorldRules>().changeTurns();
 		}
 
+
+	}
+
+	IEnumerator theReveal(){
+
+		inReveal = true;
+
+		playerOneChar.GetComponent<characterScript>().showWeapon(p1Choice);
+		playerTwoChar.GetComponent<characterScript>().showWeapon(p2Choice);
+
+		winner = compareFury(p1Choice, p2Choice);
+
+		yield return new WaitForSeconds(3);
+
+		topText.text = "Player " + winner + " wins!!!";
+
+
+		yield return new WaitForSeconds(2);
+
+		if(winner == 1){
+			Destroy(playerTwoChar);
+			playerTwoChar = null;
+			playerOneChar.transform.position = currLoc;
+			playerOneChar.GetComponent<characterScript>().hideWeapons();
+		}
+		if(winner == 2){
+			Destroy(playerOneChar);
+			playerOneChar = null;
+			playerTwoChar.transform.position = currLoc;
+			playerTwoChar.GetComponent<characterScript>().hideWeapons();
+		}
+
+		furyEnd();
 
 	}
 }

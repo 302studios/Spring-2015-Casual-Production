@@ -47,7 +47,7 @@ public class characterScript : MonoBehaviour {
 	
 	}
 
-	void showWeapon(int weaponChoice) {
+	public void showWeapon(int weaponChoice) {
 		
 		switch (weaponChoice) {
 
@@ -68,7 +68,7 @@ public class characterScript : MonoBehaviour {
 
 	}
 	
-	void hideWeapons(){
+	public void hideWeapons(){
 		
 		hammerRender.enabled = false;
 		staffRender.enabled = false;

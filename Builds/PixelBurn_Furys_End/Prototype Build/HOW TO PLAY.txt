@@ -1,0 +1,47 @@
+* * * * *  Welcome to Fury's End!!  * * * * *
+
+
+This is a 2 player turn-based game, so make sure to play with a friend.
+
+The objective of this game(while in prototype) is to eliminate your opponents characters.
+
+
+- - - - - - Player 1 Controls: - - - - - -
+
+		*** Movement ***
+	WASD - Move cursor
+	Z - Select/move/attack
+
+		*** Combat ***
+	Z - Hammer(Rock)
+	X - Magic(Paper)
+	C - Blade(Scissors)
+
+
+- - - - - - Player 2 Controls:  - - - - - -
+
+		*** Movement ***
+	Arrow Keys- Move cursor
+	J - Select/move/attack
+
+		*** Combat ***
+	J - Hammer(Rock)
+	K - Magic(Paper)
+	L - Blade(Scissors)
+
+Movement across terrain is limited. The player can only move 1 character per turn and a character can only move 7 steps per turn. 
+Moving accross different terrain takes a different number of steps
+Plains: 1 step
+Forest: 2 steps
+Mountains: 3 steps
+
+Combat plays out in Rock-Paper-Scissors fashion.
+
+Hammer represents Rock
+Magic represents Paper
+Blade represents Scissors
+
+Enjoy and give us your feedback on our first build of Fury's End!
+
+
+

@@ -117,10 +117,13 @@ public class tacticsCharacterController : MonoBehaviour {
 
 			//Player 2 Controls
 			if((playerNum == 2) && (!theRules.playerOneTurn)){
-				if(!playerSelected)
+				if(!playerSelected){
 					player2Movement();
+					movingCharacter = false;
+				}
 				else {
 					player2SelectedMovement();
+					movingCharacter = true;
 				}
 				player2Selection();
 
@@ -184,17 +187,11 @@ public class tacticsCharacterController : MonoBehaviour {
 	void player2Movement(){
 
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
-			/*if (isFacingRight) {
-						isFacingRight = !isFacingRight;
-						Flip ();
-				}*/
+
 			transform.Translate (-1, 0, 0);
 		}
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
-			/*if (!isFacingRight) {
-						isFacingRight = !isFacingRight;
-						Flip ();
-				}*/
+
 			//transform.Translate (1, 0, 0);
 			moveRight();//transform.position = Vector3.Lerp(transform.position, new Vector3((transform.position.x) + 1, transform.position.y),  
 		}
@@ -209,64 +206,58 @@ public class tacticsCharacterController : MonoBehaviour {
 
 		headingBack = headedBack ();
 
-		if (headingBack)
-			Debug.Log ("HEADING BACK!!");
-
 		if ((currSteps < (numSteps)) || headingBack) {
 
 
-						if (Input.GetKeyDown (KeyCode.A)) {
-				
-								//if(lastMove != moveTypes.None)
-								dropArrowAndCount (moveTypes.Left);
-				
-								//theMoves[numArrows] = moveTypes.Left;
-								transform.Translate (-1, 0, 0);
+			if (Input.GetKeyDown (KeyCode.A)) {
 	
-						}
-						if (Input.GetKeyDown (KeyCode.D)) {
-				
-								//if(lastMove != moveTypes.None)
-								dropArrowAndCount (moveTypes.Right);
-				
-								//theMoves[numArrows] = moveTypes.Right;
-								//transform.Translate (1, 0, 0);
-								moveRight ();//transform.position = Vector3.Lerp(transform.position, new Vector3((transform.position.x) + 1, transform.position.y),  
+					//if(lastMove != moveTypes.None)
+					dropArrowAndCount (moveTypes.Left);
+	
+					//theMoves[numArrows] = moveTypes.Left;
+					transform.Translate (-1, 0, 0);
 
-						}
-						if (Input.GetKeyDown (KeyCode.W)) {
-				
-								//if(lastMove != moveTypes.None)
-								dropArrowAndCount (moveTypes.Up);
-				
-								//theMoves[numArrows] = moveTypes.Up;
-								transform.Translate (0, 1, 0);
+			}
+			if (Input.GetKeyDown (KeyCode.D)) {
+	
+					//if(lastMove != moveTypes.None)
+					dropArrowAndCount (moveTypes.Right);
+	
+					//theMoves[numArrows] = moveTypes.Right;
+					//transform.Translate (1, 0, 0);
+					moveRight ();//transform.position = Vector3.Lerp(transform.position, new Vector3((transform.position.x) + 1, transform.position.y),  
+
+			}
+			if (Input.GetKeyDown (KeyCode.W)) {
+	
+					//if(lastMove != moveTypes.None)
+					dropArrowAndCount (moveTypes.Up);
+	
+					//theMoves[numArrows] = moveTypes.Up;
+					transform.Translate (0, 1, 0);
 
 
-						}
-						if (Input.GetKeyDown (KeyCode.S)) {
-				
-								//if(lastMove != moveTypes.None)
-								dropArrowAndCount (moveTypes.Down);
-				
-								//theMoves[numArrows] = moveTypes.Down;
-								transform.Translate (0, -1, 0);
+			}
+			if (Input.GetKeyDown (KeyCode.S)) {
+	
+					//if(lastMove != moveTypes.None)
+					dropArrowAndCount (moveTypes.Down);
+	
+					//theMoves[numArrows] = moveTypes.Down;
+					transform.Translate (0, -1, 0);
 
-						}
+			}
 
-						if (headingBack) {
-								currSteps -= gridNumCheck.gridNum;
+			if (headingBack) {
+					currSteps -= gridNumCheck.gridNum;
 
-						}
-				}
+			}
+		}
 	}
 
 	void player2SelectedMovement(){
 
 		headingBack = headedBack ();
-
-		if (headingBack)
-			Debug.Log ("HEADING BACK!!");
 
 		if ((currSteps< (numSteps)) || headingBack) {
 			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
@@ -349,6 +340,7 @@ public class tacticsCharacterController : MonoBehaviour {
 						selectedCharacter = selCharacter;
 						selectedCharacter.transform.localScale = new Vector3(.45f, .45f, 1f);
 						playerSelected = true;
+						currSteps = 0;
 						anim.SetBool("Flash", true);
 					
 
@@ -396,6 +388,7 @@ public class tacticsCharacterController : MonoBehaviour {
 						selectedCharacter = selCharacter;
 						selectedCharacter.transform.localScale = new Vector3(.45f, .45f, 1f);
 						playerSelected = true;
+						currSteps = 0;
 						anim.SetBool("Flash", true);
 					
 				

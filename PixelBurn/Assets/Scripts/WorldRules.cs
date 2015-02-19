@@ -29,6 +29,8 @@ public class WorldRules : MonoBehaviour {
 	
 		if(Input.GetKeyDown(KeyCode.Y))
 		   changeTurns();
+		if(Input.GetKeyDown(KeyCode.Escape))
+		   Application.Quit();
 
 	}
 
