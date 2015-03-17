@@ -82,7 +82,16 @@ public class tacticsCharacterController : MonoBehaviour {
 		gridNumCheck = this.GetComponent<checkGrid> ();
 		numSteps = 7;
 		currSteps = 0;
+
+		if(playerNum == 1)
+			this.GetComponent<SpriteRenderer> ().color = GameObject.Find ("World").GetComponent<WorldRules> ().teamColors [PlayerPrefs.GetInt ("Player 1 Color")]; 
+
+		if(playerNum == 2)
+			this.GetComponent<SpriteRenderer> ().color = GameObject.Find ("World").GetComponent<WorldRules> ().teamColors [PlayerPrefs.GetInt ("Player 2 Color")]; 
 		 
+
+		Debug.Log ("Player 1 Color Num: " + PlayerPrefs.GetInt ("Player 1 Color"));
+		Debug.Log ("Player 2 Color Num: " + PlayerPrefs.GetInt ("Player 2 Color"));
 
 	}
 	
@@ -303,7 +312,7 @@ public class tacticsCharacterController : MonoBehaviour {
 	
 	void player1Selection(){
 
-		if (Input.GetKeyDown (KeyCode.Z)) {
+		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			if (playerSelected) {
 				if((origin != selectedCharacter.transform.position) && (!onEnemy)){	
 					playerSelected = false;

@@ -14,6 +14,8 @@ public class WorldRules : MonoBehaviour {
 
 	public bool playerOneTurn;
 	public Animator guiAnim;
+
+	public Color[] teamColors;
  
 
 	// Use this for initialization
