@@ -1,12 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\WorldRules.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\tacticsCharacterController.cs">
     <Files>
-      <File FileName="Assets\Scripts\WorldRules.cs" Line="18" Column="28" />
+      <File FileName="Assets\Scripts\WorldRules.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\startScreen.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Team Color\arrowControls.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\tacticsCharacterController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\tacticsCharacterController.cs" Line="82" Column="41" />
       <File FileName="Assets\Scripts\furyControls.cs" Line="1" Column="1" />
+      <File FileName="Assets\levelSelection.cs" Line="39" Column="17" />
+      <File FileName="Assets\Scripts\characterScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
