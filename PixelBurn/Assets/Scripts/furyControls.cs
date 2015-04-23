@@ -6,14 +6,11 @@ public class furyControls : MonoBehaviour {
 
 
 	GameObject sR;
-	GameObject spotLight;
+	public GameObject spotLight;
 	public bool furyOn;
 	GameObject cam;
 	Vector3 defaultCamLoc;
 	float defaultCamSize;
-
-	public GameObject slideBar;
-	public Slider theSlide;
 
 	public GameObject playerOneChar;
 	public GameObject playerTwoChar;
@@ -32,36 +29,37 @@ public class furyControls : MonoBehaviour {
 	int p1Choice;
 	int p2Choice;
 
-	public int player1track = 1;
-	public int player2track = 1;
-	
+	public float player1Track = 1;
+	public float player2Track = 1;
+	public float counter = 0;
+
 	public Text topText;
 	public Text bottomText;
-
-	bool inStruggle;
+	public Text controls;
+	
 	bool inReveal;
+	bool canMinus;
+	bool countingDown = false;
+
+	public AudioClip furyStart;
 
 	// Use this for initialization
 	void Start () {
 	
-		sR = GameObject.FindGameObjectWithTag("furyBackground");
-		spotLight = GameObject.FindGameObjectWithTag("Spotlight");
+		//sR = GameObject.FindGameObjectWithTag("furyBackground");
 		cam = GameObject.FindGameObjectWithTag ("MainCamera");
 		defaultCamLoc = cam.transform.position;
 		defaultCamSize = cam.GetComponent<Camera> ().orthographicSize;
 		furyOn = false;
-		sR.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
-		spotLight.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
+		//sR.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
+		//spotLight.GetComponent<SpriteRenderer>().color = new Color(0,0,0,0);
 
 		p1Select = GameObject.Find ("Player 1 Select");
 		p2Select = GameObject.Find ("Player 2 Select");
 
 		winner = 0;
 
-		inStruggle = false;
-
-		slideBar.gameObject.SetActive(false);
-
+		canMinus = true;
 	
 	}
 	
@@ -82,28 +80,34 @@ public class furyControls : MonoBehaviour {
 	public void furyInitialize(Vector3 furyLoc, GameObject p1, GameObject p2)
 	{
 
+		Application.LoadLevel("Fight Scene");
+
 		playerOneChar = p1;
 		playerTwoChar = p2;
 		currLoc = furyLoc;
 
+		Vector2 camMove = new Vector2(playerOneChar.transform.position.x + 0.5f, playerOneChar.transform.position.y);
+
+		cam.transform.position = camMove;
+		cam.GetComponent<Camera> ().orthographicSize = defaultCamSize;
+
 		if (!furyOn) {
-			cam.transform.position = currLoc;
-			cam.transform.position -= new Vector3 (0, 0, 10);
-			cam.GetComponent<Camera> ().orthographicSize = 2.8f;
+		
+			audio.PlayOneShot(furyStart);
 
-			spotLight.transform.position = furyLoc;
-			spotLight.transform.localScale = new Vector3 (1.8f, 1.8f, 1.8f);
-			spotLight.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 255);
+			spotLight.SetActive(true);
 
-			slideBar.gameObject.SetActive(false);
+			p1Choice = 0;
+			p2Choice = 0;
+			
+			//sR.transform.position = furyLoc;
+			//sR.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 255);
 
-			sR.transform.position = furyLoc;
-			sR.GetComponent<SpriteRenderer> ().color = new Color (255, 255, 255, 255);
-
-			topText.color = new Color (255, 255, 255, 255);
-			bottomText.color = new Color (255, 255, 255, 255);
-
+			//topText.color = new Color (255, 255, 255, 255);
+			//bottomText.color = new Color (255, 255, 255, 255);
+			canMinus = true;
 			furyOn = true;
+
 		}
 
 	}
@@ -114,35 +118,35 @@ public class furyControls : MonoBehaviour {
 
 			topText.text = ("GET READY TO FURY!!!");
 			bottomText.text = ("Hammer, Magic, or Blade");
-
+			controls.enabled = true;
 		}
 
 
 
 		if(!p1HasChosen){
-			if(Input.GetKeyDown(KeyCode.Z) && !inStruggle){
+			if(Input.GetKeyDown(KeyCode.C)){
 			   p1Choice = 1;
 				p1HasChosen = true;
 			}
-			if(Input.GetKeyDown(KeyCode.X) && !inStruggle){
+			if(Input.GetKeyDown(KeyCode.V)){
 				p1Choice = 2;
 				p1HasChosen = true;
 			}
-			if(Input.GetKeyDown(KeyCode.C) && !inStruggle){
+			if(Input.GetKeyDown(KeyCode.B)){
 				p1Choice = 3;
 				p1HasChosen = true;
 			}
 		}
 		if(!p2HasChosen){
-			if(Input.GetKeyDown(KeyCode.J) && !inStruggle){
+			if(Input.GetKeyDown(KeyCode.I)){
 				p2Choice = 1;
 				p2HasChosen = true;
 			}
-			if(Input.GetKeyDown(KeyCode.K) && !inStruggle){
+			if(Input.GetKeyDown(KeyCode.O)){
 				p2Choice = 2;
 				p2HasChosen = true;
 			}
-			if(Input.GetKeyDown(KeyCode.L) && !inStruggle){
+			if(Input.GetKeyDown(KeyCode.P)){
 				p2Choice = 3;
 				p2HasChosen = true;
 			}
@@ -158,19 +162,32 @@ public class furyControls : MonoBehaviour {
 
 	}
 
+	void startFury(int p1, int p2){
+
+		PlayerPrefs.SetInt("Player 1 Weapon", p1);
+		PlayerPrefs.SetInt("Player 2 Weapon", p2);
+		Application.LoadLevel("Grass Fight Scene");
+	
+	}
+
+	/*
 	int compareFury(int p1, int p2){
 
+		controls.enabled = false;
+
+		Debug.Log("Compare check");
+
 		if ((p1 == 1) && (p2 == 1)) {
-			bottomText.text = "TIE!! Player 1 Default Wins";
-			return struggle ();
+			bottomText.text = "FURY!!!";
+			//return struggle ();
 		}
 		if ((p1 == 2) && (p2 == 2)) {
-						bottomText.text = "TIE!! Player 1 Default Wins";
-			return struggle ();
+			bottomText.text = "FURY!!!";
+			//return struggle ();
 				}
 		if ((p1 == 3) && (p2 == 3)) {
-						bottomText.text = "TIE!! Player 1 Default Wins";
-			return struggle ();
+			bottomText.text = "FURY!!!";
+			//return struggle ();
 				}
 
 		// Player 1 Victory
@@ -205,62 +222,60 @@ public class furyControls : MonoBehaviour {
 
 	}
 
-	bool countingDown = false;
-
 	int struggle(){
 
 		slideBar.gameObject.SetActive(true);
 
-		int total = player1track + player2track;
+		if(!inStruggle){
+
+			player1Track = 1f;
+			player2Track = 1f;
+
+		}
+
+		float total = player1Track + player2Track;
 
 		inStruggle = true;
 
 		Debug.Log("Check 1");
 
 
-		countingDown = true;
-		countdown();
+		// Player 1 Struggle Input
+		if((sliderActive) && ((Input.GetKeyDown(KeyCode.Alpha1)) || (Input.GetKeyDown(KeyCode.Alpha2)) || (Input.GetKeyDown(KeyCode.Alpha3))))
+		{
 
-		while(countingDown){
-			Debug.Log("Check 2");
-			// Player 1 Struggle Input
-			if((Input.GetKeyDown(KeyCode.Z)) || (Input.GetKeyDown(KeyCode.X)) || (Input.GetKeyDown(KeyCode.C))){
-
-				player1track++;
-
-			}
-
-			// Player 2 Struggle Input
-			if((Input.GetKeyDown(KeyCode.J)) || (Input.GetKeyDown(KeyCode.K)) || (Input.GetKeyDown(KeyCode.L))){
-				
-				player2track++;
-				
-			}
-			Debug.Log("Check 3");
-
-			total = player1track + player2track;
-			theSlide.value = total/player1track;
-			Debug.Log("Check 4");
-
+			player1Track++;
+			Debug.Log("Player 1 Plus Plus");
 		}
 
-	
-		inStruggle = false;
+		// Player 2 Struggle Input
+		if((sliderActive) && (Input.GetKeyDown(KeyCode.J)) || (Input.GetKeyDown(KeyCode.K)) || (Input.GetKeyDown(KeyCode.L)))
+		{
+			
+			player2Track++;
+			Debug.Log("Player 2 Plus Plus");
+		}
 
-		if(player1track >= player2track)
+
+		total = player1Track + player2Track;
+		theSlide.value = player1Track/total;
+
+
+		if(player1Track >= player2Track)
 			return 1;
 		else
 			return 2;
+
 		//return 1;
 
-	}
+	}*/
 
 
 	// IEnumerator breaking the code!!! Infinite while loop! Coroutine in coroutine?
 	IEnumerator countdown(){
 
 		//countingDown = true;
-		yield return new WaitForSeconds(7);
+		yield return new WaitForSeconds(3);
 		countingDown = false;
 
 
@@ -273,7 +288,6 @@ public class furyControls : MonoBehaviour {
 			cam.GetComponent<Camera> ().orthographicSize = defaultCamSize;
 			sR.GetComponent<SpriteRenderer> ().color = new Color (0, 0, 0, 0);
 			spotLight.GetComponent<SpriteRenderer> ().color = new Color (0, 0, 0, 0);
-			slideBar.gameObject.SetActive(false);
 			topText.color = new Color (0, 0, 0, 0);
 			bottomText.color = new Color (0, 0, 0, 0);
 
@@ -301,10 +315,13 @@ public class furyControls : MonoBehaviour {
 		playerOneChar.GetComponent<characterScript>().showWeapon(p1Choice);
 		playerTwoChar.GetComponent<characterScript>().showWeapon(p2Choice);
 
-		winner = compareFury(p1Choice, p2Choice);
+		//winner = compareFury(p1Choice, p2Choice);
 
 		yield return new WaitForSeconds(3);
 
+		startFury (p1Choice, p2Choice);
+		/*
+		sliderActive = false;
 		topText.text = "Player " + winner + " wins!!!";
 
 
@@ -313,15 +330,23 @@ public class furyControls : MonoBehaviour {
 		if(winner == 1){
 			Destroy(playerTwoChar);
 			playerTwoChar = null;
+			if(canMinus){
+				this.GetComponent<WorldRules>().p2Num--;
+				canMinus = false;
+			}
 			playerOneChar.transform.position = currLoc;
 			playerOneChar.GetComponent<characterScript>().hideWeapons();
 		}
 		if(winner == 2){
 			Destroy(playerOneChar);
 			playerOneChar = null;
+			if(canMinus){
+				this.GetComponent<WorldRules>().p1Num--;
+				canMinus = false;
+			}
 			playerTwoChar.transform.position = currLoc;
 			playerTwoChar.GetComponent<characterScript>().hideWeapons();
-		}
+		}*/
 
 		furyEnd();
 

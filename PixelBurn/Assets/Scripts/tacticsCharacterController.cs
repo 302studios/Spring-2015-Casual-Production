@@ -45,6 +45,8 @@ public class tacticsCharacterController : MonoBehaviour {
 
 	public bool headingBack;
 
+	public AudioClip bloop;
+
 	public enum moveTypes{
 
 		None, 
@@ -73,6 +75,9 @@ public class tacticsCharacterController : MonoBehaviour {
 
 		player1Characters = GameObject.FindGameObjectsWithTag("Player 1 Character");
 		player2Characters = GameObject.FindGameObjectsWithTag("Player 2 Character");
+
+		theRules.p1Num = player1Characters.Length;
+		theRules.p2Num = player2Characters.Length;
 
 		playerSelected = false;
 		theMoves[0] = moveTypes.None;
@@ -181,34 +186,42 @@ public class tacticsCharacterController : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.A)) {
 
 			transform.Translate (-1, 0, 0);
+			audio.PlayOneShot(bloop);
 		}
 		if (Input.GetKeyDown (KeyCode.D)) {
-
+			audio.PlayOneShot(bloop);
 			//transform.Translate (1, 0, 0);
 			moveRight();//transform.position = Vector3.Lerp(transform.position, new Vector3((transform.position.x) + 1, transform.position.y),  
 		}
-		if (Input.GetKeyDown (KeyCode.W))
+		if (Input.GetKeyDown (KeyCode.W)){
 			transform.Translate (0, 1, 0);
-		if (Input.GetKeyDown (KeyCode.S))
+			audio.PlayOneShot(bloop);		
+		}
+		if (Input.GetKeyDown (KeyCode.S)){
 			transform.Translate (0, -1, 0);
+			audio.PlayOneShot(bloop);
+		}
 	}
 
 	void player2Movement(){
 
 		if (Input.GetKeyDown (KeyCode.LeftArrow)) {
-
+			audio.PlayOneShot(bloop);
 			transform.Translate (-1, 0, 0);
 		}
 		if (Input.GetKeyDown (KeyCode.RightArrow)) {
-
+			audio.PlayOneShot(bloop);
 			//transform.Translate (1, 0, 0);
 			moveRight();//transform.position = Vector3.Lerp(transform.position, new Vector3((transform.position.x) + 1, transform.position.y),  
 		}
-		if (Input.GetKeyDown (KeyCode.UpArrow))
+		if (Input.GetKeyDown (KeyCode.UpArrow)){
+			audio.PlayOneShot(bloop);
 			transform.Translate (0, 1, 0);
-		if (Input.GetKeyDown (KeyCode.DownArrow))
+		}
+		if (Input.GetKeyDown (KeyCode.DownArrow)){
+			audio.PlayOneShot(bloop);
 			transform.Translate (0, -1, 0);
-
+		}
 	}
 
 	void player1SelectedMovement(){
@@ -216,6 +229,11 @@ public class tacticsCharacterController : MonoBehaviour {
 		headingBack = headedBack ();
 
 		if ((currSteps < (numSteps)) || headingBack) {
+
+			if (headingBack) {
+				currSteps -= gridNumCheck.gridNum;
+				
+			}
 
 
 			if (Input.GetKeyDown (KeyCode.A)) {
@@ -257,10 +275,7 @@ public class tacticsCharacterController : MonoBehaviour {
 
 			}
 
-			if (headingBack) {
-					currSteps -= gridNumCheck.gridNum;
-
-			}
+		
 		}
 	}
 
@@ -269,6 +284,12 @@ public class tacticsCharacterController : MonoBehaviour {
 		headingBack = headedBack ();
 
 		if ((currSteps< (numSteps)) || headingBack) {
+
+			if (headingBack) {
+				currSteps -= gridNumCheck.gridNum;
+				
+			}
+
 			if (Input.GetKeyDown (KeyCode.LeftArrow)) {
 	
 					//if(lastMove != moveTypes.None)
@@ -301,11 +322,6 @@ public class tacticsCharacterController : MonoBehaviour {
 	
 					//theMoves[numArrows] = moveTypes.Down;
 					transform.Translate (0, -1, 0);
-			}
-
-			if (headingBack) {
-				currSteps -= gridNumCheck.gridNum;
-
 			}
 		}
 	}
@@ -635,9 +651,11 @@ public class tacticsCharacterController : MonoBehaviour {
 		int backNum;
 
 		if (theMoves [numArrows] == moveTypes.Up) {
-			transform.Translate (0, -1, 0);
 			backNum = gridNumCheck.gridNum;
+			transform.Translate (0, -1, 0);
+			//backNum = gridNumCheck.gridNum;
 			numArrows--;
+			theMoves[numArrows] = moveTypes.None;
 			tempDestroy = arrowsPlaced [numArrows];
 			arrowsPlaced [numArrows] = null;
 			Destroy (tempDestroy.gameObject);
@@ -646,9 +664,11 @@ public class tacticsCharacterController : MonoBehaviour {
 		}
 
 		if (theMoves [numArrows] == moveTypes.Down) {
-			transform.Translate (0, 1, 0);
 			backNum = gridNumCheck.gridNum;
+			transform.Translate (0, 1, 0);
+			//backNum = gridNumCheck.gridNum;
 			numArrows--;
+			theMoves[numArrows] = moveTypes.None;
 			tempDestroy = arrowsPlaced [numArrows];
 			arrowsPlaced [numArrows] = null;
 			Destroy (tempDestroy.gameObject);
@@ -657,9 +677,11 @@ public class tacticsCharacterController : MonoBehaviour {
 		}
 
 		if (theMoves [numArrows] == moveTypes.Left) {
-			transform.Translate (1, 0, 0);
 			backNum = gridNumCheck.gridNum;
+			transform.Translate (1, 0, 0);
+			//backNum = gridNumCheck.gridNum;
 			numArrows--;
+			theMoves[numArrows] = moveTypes.None;
 			tempDestroy = arrowsPlaced [numArrows];
 			arrowsPlaced [numArrows] = null;
 			Destroy (tempDestroy.gameObject);
@@ -668,9 +690,11 @@ public class tacticsCharacterController : MonoBehaviour {
 		}
 
 		if (theMoves [numArrows] == moveTypes.Right) {
-			transform.Translate (-1, 0, 0);
 			backNum = gridNumCheck.gridNum;
+			transform.Translate (-1, 0, 0);
+			//backNum = gridNumCheck.gridNum;
 			numArrows--;
+			theMoves[numArrows] = moveTypes.None;
 			tempDestroy = arrowsPlaced [numArrows];
 			arrowsPlaced [numArrows] = null;
 			Destroy (tempDestroy.gameObject);

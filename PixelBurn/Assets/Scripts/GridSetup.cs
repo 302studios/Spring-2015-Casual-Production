@@ -12,9 +12,9 @@ public class GridSetup : MonoBehaviour {
 		plain = 1,
 		trees = 2,
 		mountain = 3,
-		blocked = 9
+		blocked = 999
 
-	}
+	};
 
 
 	// Use this for initialization
